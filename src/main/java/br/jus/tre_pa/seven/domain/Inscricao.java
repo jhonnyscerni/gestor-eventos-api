@@ -20,6 +20,7 @@ import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.BatchSize;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import br.jus.tre_pa.seven.domain.enums.StatusInscricao;
@@ -65,7 +66,8 @@ public class Inscricao {
 	@Column
 	private String observacao;
 	
-	@ManyToOne(targetEntity = Evento.class)
+	@ManyToOne
+//	@JsonIgnoreProperties("inscricoes")
 	private Evento evento;
 
 	@ManyToOne(targetEntity = Participante.class)

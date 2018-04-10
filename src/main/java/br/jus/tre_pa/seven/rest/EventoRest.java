@@ -24,14 +24,17 @@ import org.springframework.web.bind.annotation.RestController;
 import br.jus.tre_pa.seven.domain.CategoriaParticipanteEvento;
 import br.jus.tre_pa.seven.domain.Evento;
 import br.jus.tre_pa.seven.domain.Facilitador;
+import br.jus.tre_pa.seven.domain.Inscricao;
 import br.jus.tre_pa.seven.event.RecursoCriadoEvent;
 import br.jus.tre_pa.seven.repository.CategoriaParticipanteEventoRepository;
 import br.jus.tre_pa.seven.repository.EventoRepository;
 import br.jus.tre_pa.seven.repository.FacilitadorRepository;
+import br.jus.tre_pa.seven.repository.InscricaoRepository;
 import br.jus.tre_pa.seven.repository.filter.EventoFilter;
 import br.jus.tre_pa.seven.service.CategoriaParticipanteEventoService;
 import br.jus.tre_pa.seven.service.EventoService;
 import br.jus.tre_pa.seven.service.FacilitadorService;
+import br.jus.tre_pa.seven.service.InscricaoService;
 
 @RestController
 @RequestMapping("/eventos")
@@ -45,6 +48,10 @@ public class EventoRest {
 
 	@Autowired
 	private FacilitadorService facilitadorService;
+	
+	@Autowired
+	private InscricaoService inscricaoService;
+
 
 	@Autowired
 	private CategoriaParticipanteEventoService categoriaParticipanteEventoService;
@@ -57,6 +64,9 @@ public class EventoRest {
 
 	@Autowired
 	private FacilitadorRepository facilitadorRepository;
+	
+	@Autowired
+	private InscricaoRepository inscricaoRepository;
 
 	@GetMapping
 	public Page<Evento> pesquisar(EventoFilter eventoFilter, Pageable pageable) {
@@ -154,5 +164,35 @@ public class EventoRest {
 	@GetMapping("/{idEvento}/facilitadores")
 	public List<Facilitador> findFacilitadoresbyEvento(@PathVariable Long idEvento) {
 		return this.facilitadorRepository.findAllByEventoId(idEvento);
+	}
+	
+	/*
+	 * INSCRICAO
+	 * 
+	 */
+	
+	@PostMapping("/{idEvento}/inscricao")
+	public ResponseEntity<Inscricao> criar(@PathVariable Long idEvento, @Valid @RequestBody Inscricao inscricao,
+			HttpServletResponse response) {
+		Inscricao inscricaoSalvo = inscricaoRepository.save(inscricao);
+		publisher.publishEvent(new RecursoCriadoEvent(this, response, inscricaoSalvo.getId()));
+		return ResponseEntity.status(HttpStatus.CREATED).body(inscricaoSalvo);
+	}
+	
+	@PutMapping("/{idEvento}/inscricao/{idInscricao}")
+	public ResponseEntity<Inscricao> atualizar(@PathVariable Long idEvento, @PathVariable Long idInscricao,
+			@Valid @RequestBody Inscricao inscricao, HttpServletResponse response) {
+		try {
+			Inscricao inscricaoSalvo = inscricaoService.atualizar(idInscricao, inscricao);
+			return ResponseEntity.ok(inscricaoSalvo);
+		} catch (IllegalArgumentException e) {
+			// TODO: handle exception
+			return ResponseEntity.notFound().build();
+		}
+	}
+	
+	@GetMapping("/{idEvento}/inscricoes")
+	public List<Inscricao> findIncricoesByEvento(@PathVariable Long idEvento) {
+		return this.inscricaoRepository.findAllByEventoId(idEvento);
 	}
 }

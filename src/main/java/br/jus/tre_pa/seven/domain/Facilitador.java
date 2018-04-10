@@ -29,6 +29,7 @@ public class Facilitador {
 	private String email;
 	
 	@ManyToOne
+//	@JsonIgnoreProperties(value="inscricoes")
 	private Evento evento;
 
 	public Long getId() {

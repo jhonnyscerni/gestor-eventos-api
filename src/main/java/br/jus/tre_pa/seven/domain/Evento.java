@@ -104,7 +104,7 @@ public class Evento {
 	@JoinColumn(name = "codigo_certificado")
 	private Certificado certificado;
 	
-	@OneToMany(mappedBy = "evento")
+	@OneToMany
 	private List<Inscricao> inscricoes = new ArrayList<Inscricao>();
 	
 	@OneToMany(mappedBy = "evento", cascade = CascadeType.ALL)
@@ -113,7 +113,7 @@ public class Evento {
 	@JsonIgnore
 	private List<EventoAttrConf> eventoAttrConfs = new ArrayList<>();
 	
-	@OneToMany(mappedBy = "evento")
+	@OneToMany
 	private List<CategoriaParticipanteEvento> categoriaParticipanteEvento = new ArrayList<CategoriaParticipanteEvento>();
 
 	public Long getId() {

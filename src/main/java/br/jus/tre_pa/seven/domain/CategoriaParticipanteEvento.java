@@ -1,6 +1,5 @@
 package br.jus.tre_pa.seven.domain;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
