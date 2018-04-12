@@ -20,7 +20,6 @@ import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.BatchSize;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import br.jus.tre_pa.seven.domain.enums.StatusInscricao;

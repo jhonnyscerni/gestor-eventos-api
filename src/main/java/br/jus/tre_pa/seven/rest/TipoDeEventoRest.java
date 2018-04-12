@@ -30,15 +30,14 @@ public class TipoDeEventoRest {
 
 	@Autowired
 	private TipoDeEventoRepository tipoDeEventoRespository;
-	
+
 	@Autowired
 	private ApplicationEventPublisher publisher;
-	
+
 	@GetMapping
-	public List<TipoDeEvento> listar()
-	{
+	public List<TipoDeEvento> listar() {
 		return tipoDeEventoRespository.findAll();
-		
+
 	}
 	
 	@PostMapping

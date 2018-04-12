@@ -70,7 +70,7 @@ public class Participante {
 	@Column
 	private Boolean verificado;
 	
-	@OneToMany(mappedBy = "participante")
+	@OneToMany
 	private List<Inscricao> inscricoes = new ArrayList<Inscricao>();
 	
 	@Embedded
