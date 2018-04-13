@@ -65,6 +65,9 @@ public class Inscricao {
 	@Column
 	private String observacao;
 	
+	@Column
+	private String codigoQrCode;
+	
 	@ManyToOne
 //	@JsonIgnoreProperties("inscricoes")
 	private Evento evento;
@@ -213,6 +216,14 @@ public class Inscricao {
 
 	public void setEventoAttrValues(List<EventoAttrValue> eventoAttrValues) {
 		this.eventoAttrValues = eventoAttrValues;
+	}
+
+	public String getCodigoQrCode() {
+		return codigoQrCode;
+	}
+
+	public void setCodigoQrCode(String codigoQrCode) {
+		this.codigoQrCode = codigoQrCode;
 	}
 	
 	

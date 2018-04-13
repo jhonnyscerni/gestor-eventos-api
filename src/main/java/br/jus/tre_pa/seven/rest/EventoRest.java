@@ -81,7 +81,7 @@ public class EventoRest {
 
 	@PostMapping
 	public ResponseEntity<Evento> criar(@Valid @RequestBody Evento evento, HttpServletResponse response) {
-		Evento eventoSalvo = eventoRepository.save(evento);
+		Evento eventoSalvo = eventoService.salvar(evento);
 		publisher.publishEvent(new RecursoCriadoEvent(this, response, eventoSalvo.getId()));
 		return ResponseEntity.status(HttpStatus.CREATED).body(eventoSalvo);
 	}
@@ -111,8 +111,8 @@ public class EventoRest {
 	@PostMapping("/{id}/categoria-participante-evento")
 	public ResponseEntity<CategoriaParticipanteEvento> criar(@PathVariable Long id,
 			@Valid @RequestBody CategoriaParticipanteEvento categoriaParticipanteEvento, HttpServletResponse response) {
-		CategoriaParticipanteEvento categoriaParticipanteEventoSalvo = categoriaParticipanteEventoRepository
-				.save(categoriaParticipanteEvento);
+		CategoriaParticipanteEvento categoriaParticipanteEventoSalvo = categoriaParticipanteEventoService
+				.salvar(categoriaParticipanteEvento);
 		publisher.publishEvent(new RecursoCriadoEvent(this, response, categoriaParticipanteEventoSalvo.getId()));
 		return ResponseEntity.status(HttpStatus.CREATED).body(categoriaParticipanteEventoSalvo);
 	}
@@ -144,7 +144,7 @@ public class EventoRest {
 	@PostMapping("/{idEvento}/facilitador")
 	public ResponseEntity<Facilitador> criar(@PathVariable Long idEvento, @Valid @RequestBody Facilitador facilitador,
 			HttpServletResponse response) {
-		Facilitador facilitadorSalvo = facilitadorRepository.save(facilitador);
+		Facilitador facilitadorSalvo = facilitadorService.salvar(facilitador);
 		publisher.publishEvent(new RecursoCriadoEvent(this, response, facilitadorSalvo.getId()));
 		return ResponseEntity.status(HttpStatus.CREATED).body(facilitadorSalvo);
 	}
@@ -174,7 +174,7 @@ public class EventoRest {
 	@PostMapping("/{idEvento}/inscricao")
 	public ResponseEntity<Inscricao> criar(@PathVariable Long idEvento, @Valid @RequestBody Inscricao inscricao,
 			HttpServletResponse response) {
-		Inscricao inscricaoSalvo = inscricaoRepository.save(inscricao);
+		Inscricao inscricaoSalvo = inscricaoService.salvar(inscricao);
 		publisher.publishEvent(new RecursoCriadoEvent(this, response, inscricaoSalvo.getId()));
 		return ResponseEntity.status(HttpStatus.CREATED).body(inscricaoSalvo);
 	}

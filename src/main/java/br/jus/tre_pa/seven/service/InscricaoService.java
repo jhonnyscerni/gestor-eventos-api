@@ -1,5 +1,7 @@
 package br.jus.tre_pa.seven.service;
 
+import java.util.UUID;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,7 +15,11 @@ public class InscricaoService {
 	@Autowired
 	private InscricaoRepository inscricaoRespository;
 	
+	UUID uuid = UUID.randomUUID(); 
+	String strUuid = uuid.toString();
+	
 	public Inscricao salvar(Inscricao inscricao){
+		inscricao.setCodigoQrCode(strUuid);
 		return inscricaoRespository.save(inscricao);
 	}
 	
