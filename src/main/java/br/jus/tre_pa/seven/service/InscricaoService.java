@@ -14,31 +14,29 @@ public class InscricaoService {
 
 	@Autowired
 	private InscricaoRepository inscricaoRespository;
-	
-	UUID uuid = UUID.randomUUID(); 
-	String strUuid = uuid.toString();
-	
-	public Inscricao salvar(Inscricao inscricao){
+
+	public Inscricao salvar(Inscricao inscricao) {
+		UUID uuid = UUID.randomUUID();
+		String strUuid = uuid.toString();
 		inscricao.setCodigoQrCode(strUuid);
 		return inscricaoRespository.save(inscricao);
 	}
-	
-	public Inscricao atualizar(Long id, Inscricao inscricao){
+
+	public Inscricao atualizar(Long id, Inscricao inscricao) {
 		Inscricao InscricaoSalvo = buscarInscricaoExistente(id);
-		
+
 		BeanUtils.copyProperties(inscricao, InscricaoSalvo, "id");
-		
+
 		return inscricaoRespository.save(InscricaoSalvo);
 	}
-	
-	
-	public Inscricao buscarInscricaoExistente(Long id){
+
+	public Inscricao buscarInscricaoExistente(Long id) {
 		Inscricao inscricaoSalvo = inscricaoRespository.findOne(id);
-		
+
 		if (inscricaoSalvo == null) {
 			throw new IllegalArgumentException();
 		}
-		
+
 		return inscricaoSalvo;
 	}
 }
