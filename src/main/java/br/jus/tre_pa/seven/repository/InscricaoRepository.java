@@ -12,4 +12,7 @@ public interface InscricaoRepository extends JpaRepository<Inscricao, Long> {
 	
 	@Query("select c from Inscricao c inner join c.evento e where e.id = ?1")
 	List<Inscricao> findAllByEventoId(Long idEvento);
+	
+	@Query("select p from Inscricao p inner join p.participante e where p.id = ?1")
+	Inscricao findOneParticipanteByInscricao(Long idInscricao);
 }

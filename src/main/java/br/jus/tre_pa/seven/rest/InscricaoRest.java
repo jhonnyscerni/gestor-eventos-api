@@ -33,6 +33,12 @@ public class InscricaoRest {
 		return inscricao != null ? ResponseEntity.ok(inscricao) : ResponseEntity.notFound().build();
 	}
 	
+	@GetMapping("gerar-cracha/{idInscricao}")
+	public ResponseEntity<Inscricao> buscarParticipantePelaInscricao(@PathVariable Long idInscricao) {
+		Inscricao inscricao = inscricaoRepository.findOneParticipanteByInscricao(idInscricao);
+		return inscricao != null ? ResponseEntity.ok(inscricao) : ResponseEntity.notFound().build();
+	}
+	
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void remover(@PathVariable Long id) {
