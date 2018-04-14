@@ -24,11 +24,13 @@ import org.springframework.web.bind.annotation.RestController;
 import br.jus.tre_pa.seven.domain.CategoriaParticipanteEvento;
 import br.jus.tre_pa.seven.domain.Evento;
 import br.jus.tre_pa.seven.domain.Facilitador;
+import br.jus.tre_pa.seven.domain.Frequencia;
 import br.jus.tre_pa.seven.domain.Inscricao;
 import br.jus.tre_pa.seven.event.RecursoCriadoEvent;
 import br.jus.tre_pa.seven.repository.CategoriaParticipanteEventoRepository;
 import br.jus.tre_pa.seven.repository.EventoRepository;
 import br.jus.tre_pa.seven.repository.FacilitadorRepository;
+import br.jus.tre_pa.seven.repository.FrequenciaRepository;
 import br.jus.tre_pa.seven.repository.InscricaoRepository;
 import br.jus.tre_pa.seven.repository.filter.EventoFilter;
 import br.jus.tre_pa.seven.service.CategoriaParticipanteEventoService;
@@ -67,6 +69,9 @@ public class EventoRest {
 	
 	@Autowired
 	private InscricaoRepository inscricaoRepository;
+	
+	@Autowired
+	private FrequenciaRepository frequenciaRepository;
 
 	@GetMapping
 	public Page<Evento> pesquisar(EventoFilter eventoFilter, Pageable pageable) {
@@ -194,5 +199,15 @@ public class EventoRest {
 	@GetMapping("/{idEvento}/inscricoes")
 	public List<Inscricao> findIncricoesByEvento(@PathVariable Long idEvento) {
 		return this.inscricaoRepository.findAllByEventoId(idEvento);
+	}
+	
+	/*
+	 * FREQUENCIA
+	 * 
+	 */
+	
+	@GetMapping("/{idEvento}/frequencia")
+	public List<Frequencia> findAllFrequenciaByInscricaoByParticipanteByEnvento(@PathVariable Long idEvento) {
+		return this.frequenciaRepository.findAllFrequenciaByInscricaoByParticipanteByEnvento(idEvento);
 	}
 }
