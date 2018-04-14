@@ -72,7 +72,7 @@ public class Inscricao {
 //	@JsonIgnoreProperties("inscricoes")
 	private Evento evento;
 
-	@ManyToOne(targetEntity = Participante.class)
+	@ManyToOne
 	private Participante participante;
 	
 	@OneToMany(cascade = CascadeType.ALL)
