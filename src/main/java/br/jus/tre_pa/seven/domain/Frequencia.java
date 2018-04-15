@@ -5,10 +5,14 @@ import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+
+import br.jus.tre_pa.seven.domain.enums.FrequenciaTurno;
 
 @Entity
 public class Frequencia implements Serializable {
@@ -24,6 +28,10 @@ public class Frequencia implements Serializable {
 	
 	@Column
 	private LocalDateTime dataFrequencia;
+	
+	@Column
+	@Enumerated(EnumType.STRING)
+	private FrequenciaTurno frequenciaTurno;
 	
 	@ManyToOne
 	private Inscricao inscricao;
@@ -76,6 +84,14 @@ public class Frequencia implements Serializable {
 
 	public void setDataFrequencia(LocalDateTime dataFrequencia) {
 		this.dataFrequencia = dataFrequencia;
+	}
+
+	public FrequenciaTurno getFrequenciaTurno() {
+		return frequenciaTurno;
+	}
+
+	public void setFrequenciaTurno(FrequenciaTurno frequenciaTurno) {
+		this.frequenciaTurno = frequenciaTurno;
 	}
 
 	
