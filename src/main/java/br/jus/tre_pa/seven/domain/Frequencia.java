@@ -1,7 +1,7 @@
 package br.jus.tre_pa.seven.domain;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,8 +9,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 @Entity
 public class Frequencia implements Serializable {
@@ -25,19 +23,11 @@ public class Frequencia implements Serializable {
 	private Long id;
 	
 	@Column
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date dataFrequencia;
+	private LocalDateTime dataFrequencia;
 	
 	@ManyToOne
 	private Inscricao inscricao;
 
-	public Date getDataFrequencia() {
-		return dataFrequencia;
-	}
-
-	public void setDataFrequencia(Date dataFrequencia) {
-		this.dataFrequencia = dataFrequencia;
-	}
 
 	public Inscricao getInscricao() {
 		return inscricao;
@@ -79,6 +69,14 @@ public class Frequencia implements Serializable {
 			return false;
 		return true;
 	}
-	
+
+	public LocalDateTime getDataFrequencia() {
+		return dataFrequencia;
+	}
+
+	public void setDataFrequencia(LocalDateTime dataFrequencia) {
+		this.dataFrequencia = dataFrequencia;
+	}
+
 	
 }

@@ -1,6 +1,6 @@
 package br.jus.tre_pa.seven.service;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,7 +22,7 @@ public class FrequenciaService {
 	public Frequencia salvar(String uuid) {
 		Inscricao inscricao = inscricaoRespository.findOneByCodigoQrCode(uuid);
 		Frequencia frequencia = new Frequencia();
-		frequencia.setDataFrequencia(new Date());
+		frequencia.setDataFrequencia(LocalDateTime.now());
 		frequencia.setInscricao(inscricao);
 		
 		return frequenciaRepository.save(frequencia);
