@@ -26,7 +26,7 @@ import br.jus.tre_pa.seven.repository.ParticipanteRepository;
 
 @RestController
 @RequestMapping("/participantes")
-public class ParticipanteService {
+public class ParticipanteRest {
 	
 	@Autowired
 	private ParticipanteRepository participanteRespository;

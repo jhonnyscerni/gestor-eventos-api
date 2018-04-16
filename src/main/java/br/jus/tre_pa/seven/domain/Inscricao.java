@@ -1,5 +1,6 @@
 package br.jus.tre_pa.seven.domain;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -33,8 +34,7 @@ public class Inscricao {
 	private Long id;
 	
 	@Column
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date dtInscricao;
+	private LocalDateTime dtInscricao;
 	
 	@Column
 	@Temporal(TemporalType.TIMESTAMP)
@@ -71,6 +71,9 @@ public class Inscricao {
 	@ManyToOne
 //	@JsonIgnoreProperties("inscricoes")
 	private Evento evento;
+	
+	@ManyToOne
+	private CategoriaParticipanteEvento categoriaParticipanteEvento;
 
 	@ManyToOne
 	private Participante participante;
@@ -87,14 +90,6 @@ public class Inscricao {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public Date getDtInscricao() {
-		return dtInscricao;
-	}
-
-	public void setDtInscricao(Date dtInscricao) {
-		this.dtInscricao = dtInscricao;
 	}
 
 	public Date getDtDeferimento() {
@@ -224,6 +219,22 @@ public class Inscricao {
 
 	public void setCodigoQrCode(String codigoQrCode) {
 		this.codigoQrCode = codigoQrCode;
+	}
+
+	public CategoriaParticipanteEvento getCategoriaParticipanteEvento() {
+		return categoriaParticipanteEvento;
+	}
+
+	public void setCategoriaParticipanteEvento(CategoriaParticipanteEvento categoriaParticipanteEvento) {
+		this.categoriaParticipanteEvento = categoriaParticipanteEvento;
+	}
+
+	public LocalDateTime getDtInscricao() {
+		return dtInscricao;
+	}
+
+	public void setDtInscricao(LocalDateTime dtInscricao) {
+		this.dtInscricao = dtInscricao;
 	}
 	
 	

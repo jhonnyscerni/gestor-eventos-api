@@ -1,5 +1,6 @@
 package br.jus.tre_pa.seven.service;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import org.springframework.beans.BeanUtils;
@@ -19,6 +20,8 @@ public class InscricaoService {
 		UUID uuid = UUID.randomUUID();
 		String strUuid = uuid.toString();
 		inscricao.setCodigoQrCode(strUuid);
+		
+		inscricao.setDtInscricao(LocalDateTime.now());
 		return inscricaoRespository.save(inscricao);
 	}
 
