@@ -14,6 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -45,7 +46,17 @@ public class Evento {
 	private String sigla;
 	
 	@Column
+	@Lob
+	private String conteudo;
+	
+	@Column
 	private String descricao;
+	
+	@Column
+	private String publico;
+	
+	@Column
+	private String local;
 	
 	@Column
 	@Enumerated(EnumType.STRING)
@@ -332,6 +343,30 @@ public class Evento {
 
 	public void setEventoAttrConfs(List<EventoAttrConf> eventoAttrConfs) {
 		this.eventoAttrConfs = eventoAttrConfs;
+	}
+
+	public String getLocal() {
+		return local;
+	}
+
+	public void setLocal(String local) {
+		this.local = local;
+	}
+
+	public String getPublico() {
+		return publico;
+	}
+
+	public void setPublico(String publico) {
+		this.publico = publico;
+	}
+
+	public String getConteudo() {
+		return conteudo;
+	}
+
+	public void setConteudo(String conteudo) {
+		this.conteudo = conteudo;
 	}
 
 
