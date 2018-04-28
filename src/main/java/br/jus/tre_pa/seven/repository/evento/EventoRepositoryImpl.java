@@ -77,6 +77,11 @@ public class EventoRepositoryImpl implements EventoRepositoryQuery {
 			predicates.add(
 					builder.like(builder.lower(root.get("sigla")), "%" + eventoFilter.getSigla().toLowerCase() + "%"));
 		}
+		
+		if (!StringUtils.isEmpty(eventoFilter.getTipoDeEvento().getNomeSingular())) {
+			predicates.add(
+					builder.like(builder.lower(root.get("tipoEvento")), "%" + eventoFilter.getTipoDeEvento().getNomeSingular().toLowerCase() + "%"));
+		}
 
 		if (eventoFilter.getInicioEventoDe() != null) {
 			predicates.add(builder.greaterThanOrEqualTo(root.get("inicioEvento"), eventoFilter.getInicioEventoDe()));

@@ -41,8 +41,9 @@ public class Certificado {
 	@ManyToOne
 	private Assinatura assinatura;
 	
-	@OneToMany(mappedBy = "certificado")
-	private List<Evento> evento;
+	@ManyToOne
+	private Evento evento;
+
 
 	public Long getId() {
 		return id;
@@ -135,11 +136,11 @@ public class Certificado {
 		return true;
 	}
 
-	public List<Evento> getEvento() {
+	public Evento getEvento() {
 		return evento;
 	}
 
-	public void setEvento(List<Evento> evento) {
+	public void setEvento(Evento evento) {
 		this.evento = evento;
 	}
 	

@@ -22,18 +22,21 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.jus.tre_pa.seven.domain.CategoriaParticipanteEvento;
+import br.jus.tre_pa.seven.domain.Certificado;
 import br.jus.tre_pa.seven.domain.Evento;
 import br.jus.tre_pa.seven.domain.Facilitador;
 import br.jus.tre_pa.seven.domain.Frequencia;
 import br.jus.tre_pa.seven.domain.Inscricao;
 import br.jus.tre_pa.seven.event.RecursoCriadoEvent;
 import br.jus.tre_pa.seven.repository.CategoriaParticipanteEventoRepository;
+import br.jus.tre_pa.seven.repository.CertificadoRepository;
 import br.jus.tre_pa.seven.repository.EventoRepository;
 import br.jus.tre_pa.seven.repository.FacilitadorRepository;
 import br.jus.tre_pa.seven.repository.FrequenciaRepository;
 import br.jus.tre_pa.seven.repository.InscricaoRepository;
 import br.jus.tre_pa.seven.repository.filter.EventoFilter;
 import br.jus.tre_pa.seven.service.CategoriaParticipanteEventoService;
+import br.jus.tre_pa.seven.service.CertificadoService;
 import br.jus.tre_pa.seven.service.EventoService;
 import br.jus.tre_pa.seven.service.FacilitadorService;
 import br.jus.tre_pa.seven.service.InscricaoService;
@@ -57,6 +60,9 @@ public class EventoRest {
 
 	@Autowired
 	private CategoriaParticipanteEventoService categoriaParticipanteEventoService;
+	
+	@Autowired
+	private CertificadoService certificadoService;
 
 	@Autowired
 	private ApplicationEventPublisher publisher;
@@ -72,6 +78,9 @@ public class EventoRest {
 	
 	@Autowired
 	private FrequenciaRepository frequenciaRepository;
+	
+	@Autowired
+	private CertificadoRepository certificadoRepository;
 
 	@GetMapping
 	public Page<Evento> pesquisar(EventoFilter eventoFilter, Pageable pageable) {
@@ -209,5 +218,35 @@ public class EventoRest {
 	@GetMapping("/{idEvento}/frequencia")
 	public List<Frequencia> findAllFrequenciaByInscricaoByParticipanteByEnvento(@PathVariable Long idEvento) {
 		return this.frequenciaRepository.findAllFrequenciaByInscricaoByParticipanteByEnvento(idEvento);
+	}
+	
+	
+	/*
+	 * CERTIFICADO
+	 */
+
+	@PostMapping("/{idEvento}/certificado")
+	public ResponseEntity<Certificado> criar(@PathVariable Long idEvento, @Valid @RequestBody Certificado certificado,
+			HttpServletResponse response) {
+		Certificado certificadoSalvo = certificadoService.salvar(certificado);
+		publisher.publishEvent(new RecursoCriadoEvent(this, response, certificadoSalvo.getId()));
+		return ResponseEntity.status(HttpStatus.CREATED).body(certificadoSalvo);
+	}
+
+	@PutMapping("/{idEvento}/certificado/{idCertificado}")
+	public ResponseEntity<Certificado> atualizar(@PathVariable Long idEvento, @PathVariable Long idCertificado,
+			@Valid @RequestBody Certificado certificado, HttpServletResponse response) {
+		try {
+			Certificado certificadoSalvo = certificadoService.atualizar(idCertificado, certificado);
+			return ResponseEntity.ok(certificadoSalvo);
+		} catch (IllegalArgumentException e) {
+			// TODO: handle exception
+			return ResponseEntity.notFound().build();
+		}
+	}
+
+	@GetMapping("/{idEvento}/certificados")
+	public List<Certificado> findCertificadosbyEvento(@PathVariable Long idEvento) {
+		return this.certificadoRepository.findAllByEventoId(idEvento);
 	}
 }

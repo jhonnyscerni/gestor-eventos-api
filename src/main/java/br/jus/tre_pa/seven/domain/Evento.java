@@ -111,10 +111,6 @@ public class Evento {
 	@JoinColumn(name = "codigo_tipo_evento")
 	private TipoDeEvento tipoDeEvento;
 	
-	@ManyToOne
-	@JoinColumn(name = "codigo_certificado")
-	private Certificado certificado;
-	
 	@OneToMany
 	private List<Inscricao> inscricoes = new ArrayList<Inscricao>();
 	
@@ -319,14 +315,6 @@ public class Evento {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
-	}
-
-	public Certificado getCertificado() {
-		return certificado;
-	}
-
-	public void setCertificado(Certificado certificado) {
-		this.certificado = certificado;
 	}
 
 	public String getQtdAtividade() {
