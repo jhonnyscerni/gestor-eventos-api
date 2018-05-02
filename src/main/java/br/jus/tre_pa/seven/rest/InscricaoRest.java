@@ -39,6 +39,12 @@ public class InscricaoRest {
 		return inscricao != null ? ResponseEntity.ok(inscricao) : ResponseEntity.notFound().build();
 	}
 	
+	@GetMapping("gerar-certificado/{idInscricao}")
+	public ResponseEntity<Inscricao> findOneCertificadoParticipanteByInscricaoByEvento(@PathVariable Long idInscricao) {
+		Inscricao inscricao = inscricaoRepository.findOneParticipanteByInscricao(idInscricao);
+		return inscricao != null ? ResponseEntity.ok(inscricao) : ResponseEntity.notFound().build();
+	}
+	
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void remover(@PathVariable Long id) {
