@@ -1,5 +1,8 @@
 package br.jus.tre_pa.seven.rest;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -18,8 +21,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import br.jus.tre_pa.seven.domain.CategoriaParticipanteEvento;
 import br.jus.tre_pa.seven.domain.Certificado;
@@ -81,6 +86,17 @@ public class EventoRest {
 	
 	@Autowired
 	private CertificadoRepository certificadoRepository;
+	
+
+	@PostMapping("/anexo-imagem")
+	public String uploadAnexoEvento(@RequestParam MultipartFile anexo) throws IOException {
+		OutputStream out = new FileOutputStream(
+				"/home/jhonnyscerni/Desktop/anexo--" + anexo.getOriginalFilename());
+		out.write(anexo.getBytes());
+		out.close();
+		return "ok";
+	}
+	
 
 	@GetMapping
 	public Page<Evento> pesquisar(EventoFilter eventoFilter, Pageable pageable) {
