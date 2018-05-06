@@ -6,27 +6,13 @@
 
 <p>Olá!</p>
 
-<p>Eventos Cadastrados:</p>
+<p>Cracha QrCode :</p>
 
 <p>
-    <table style="width: 100%; border-collapse: collapse;  margin: 20px 0">
-        <thead>
-            <tr>
-                <th>Nome</th>
-            </tr>
-        </thead>
-        
-        <tbody>
-            <tr style="border-bottom: 1px solid #ccc; border-top: 1px solid #ccc;"
-                th:each="evento: ${eventos}">
-                <td th:text="${evento.nome}">Nome</td>
-            </tr>
-        </tbody>
-    </table>
 </p>
 
 <p>Obrigado.</p>
 <p>Equipe Seven!</p>
-
+<img th:src="@{/inscricoes/gerar-qrcode/teste" />
 </body>
 </html>
