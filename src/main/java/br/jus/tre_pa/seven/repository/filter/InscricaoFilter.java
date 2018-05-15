@@ -1,8 +1,10 @@
 package br.jus.tre_pa.seven.repository.filter;
 
+import br.jus.tre_pa.seven.domain.Participante;
+
 public class InscricaoFilter {
 	
-	private String nomeParticipante;
+	private Participante participante = new Participante();
 	private String codigoCertificado;
 
 
@@ -15,12 +17,13 @@ public class InscricaoFilter {
 		this.codigoCertificado = codigoCertificado;
 	}
 
-	public String getNomeParticipante() {
-		return nomeParticipante;
+	public Participante getParticipante() {
+		return participante;
 	}
 
-	public void setNomeParticipante(String nomeParticipante) {
-		this.nomeParticipante = nomeParticipante;
+	public void setParticipante(Participante participante) {
+		this.participante = participante;
 	}
+
 
 }

@@ -78,16 +78,19 @@ public class InscricaoRepositoryImpl implements InscricaoRepositoryQuery {
 		
 		Join<Inscricao, Participante> joinParticipante = root.join("participante", JoinType.INNER);
 		
-		inscricaoFilter.getNomeParticipante();
-		
-		if (!StringUtils.isEmpty(inscricaoFilter.getCodigoCertificado())) {
+		if (!StringUtils.isEmpty(inscricaoFilter.getParticipante().getNome())) {
 			predicates.add(
-					builder.like(builder.lower(root.get("codigoCertificado")), "%" + inscricaoFilter.getCodigoCertificado().toLowerCase() + "%"));
+					builder.like(builder.lower(joinParticipante.get("nome")), "%" + inscricaoFilter.getParticipante().getNome().toLowerCase() + "%"));
 		}
 		
-		if (!StringUtils.isEmpty(inscricaoFilter.getNomeParticipante())) {
+		if (!StringUtils.isEmpty(inscricaoFilter.getParticipante().getNomeCracha())) {
 			predicates.add(
-					builder.like(builder.lower(joinParticipante.get("nome")), "%" + inscricaoFilter.getNomeParticipante().toLowerCase() + "%"));
+					builder.like(builder.lower(joinParticipante.get("nomeCracha")), "%" + inscricaoFilter.getParticipante().getNomeCracha().toLowerCase() + "%"));
+		}
+		
+		if (!StringUtils.isEmpty(inscricaoFilter.getParticipante().getCpf())) {
+			predicates.add(
+					builder.like(builder.lower(joinParticipante.get("cpf")), "%" + inscricaoFilter.getParticipante().getCpf().toLowerCase() + "%"));
 		}
 
 		return predicates.toArray(new Predicate[predicates.size()]);
