@@ -40,6 +40,7 @@ import br.jus.tre_pa.seven.repository.FacilitadorRepository;
 import br.jus.tre_pa.seven.repository.FrequenciaRepository;
 import br.jus.tre_pa.seven.repository.InscricaoRepository;
 import br.jus.tre_pa.seven.repository.filter.EventoFilter;
+import br.jus.tre_pa.seven.repository.filter.InscricaoFilter;
 import br.jus.tre_pa.seven.service.CategoriaParticipanteEventoService;
 import br.jus.tre_pa.seven.service.CertificadoService;
 import br.jus.tre_pa.seven.service.EventoService;
@@ -222,9 +223,10 @@ public class EventoRest {
 	}
 	
 	@GetMapping("/{idEvento}/inscricoes")
-	public List<Inscricao> findIncricoesByEvento(@PathVariable Long idEvento) {
-		return this.inscricaoRepository.findAllByEventoId(idEvento);
+	public Page<Inscricao> findIncricoesByEvento(@PathVariable Long idEvento, InscricaoFilter inscricaoFilter, Pageable pageable) {
+		return this.inscricaoRepository.filtrar(idEvento, inscricaoFilter, pageable);
 	}
+	
 	
 	/*
 	 * FREQUENCIA
