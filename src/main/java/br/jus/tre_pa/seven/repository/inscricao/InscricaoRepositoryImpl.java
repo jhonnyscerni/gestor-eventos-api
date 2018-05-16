@@ -18,6 +18,8 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.util.StringUtils;
 
+import br.jus.tre_pa.seven.domain.CategoriaParticipante;
+import br.jus.tre_pa.seven.domain.CategoriaParticipanteEvento;
 import br.jus.tre_pa.seven.domain.Evento;
 import br.jus.tre_pa.seven.domain.Inscricao;
 import br.jus.tre_pa.seven.domain.Participante;
@@ -42,7 +44,7 @@ public class InscricaoRepositoryImpl implements InscricaoRepositoryQuery {
 
 		adicionarRestricoesDePaginacao(query, pageable);
 
-		return new PageImpl<>(query.getResultList(), pageable, total(idEvento,inscricaoFilter));
+		return new PageImpl<>(query.getResultList(), pageable, total(idEvento, inscricaoFilter));
 	}
 
 	private Long total(Long idEvento, InscricaoFilter inscricaoFilter) {
@@ -69,28 +71,40 @@ public class InscricaoRepositoryImpl implements InscricaoRepositoryQuery {
 
 	}
 
-	private Predicate[] criarRestricoes(Long idEvento, InscricaoFilter inscricaoFilter, CriteriaBuilder builder, Root<Inscricao> root) {
+	private Predicate[] criarRestricoes(Long idEvento, InscricaoFilter inscricaoFilter, CriteriaBuilder builder,
+			Root<Inscricao> root) {
 		List<Predicate> predicates = new ArrayList<>();
-		
+
 		Join<Inscricao, Evento> joinEvento = root.join("evento", JoinType.INNER);
 
 		predicates.add(builder.equal(joinEvento.get("id"), idEvento));
-		
+
 		Join<Inscricao, Participante> joinParticipante = root.join("participante", JoinType.INNER);
-		
+
+		Join<Inscricao, CategoriaParticipanteEvento> joinCategoriaParticipanteEvento = root
+				.join("categoriaParticipanteEvento", JoinType.INNER);
+
+		Join<CategoriaParticipanteEvento, CategoriaParticipante> joinCategoriaParticipante = joinCategoriaParticipanteEvento
+				.join("categoriaParticipante", JoinType.INNER);
+
 		if (!StringUtils.isEmpty(inscricaoFilter.getParticipante().getNome())) {
-			predicates.add(
-					builder.like(builder.lower(joinParticipante.get("nome")), "%" + inscricaoFilter.getParticipante().getNome().toLowerCase() + "%"));
+			predicates.add(builder.like(builder.lower(joinParticipante.get("nome")),
+					"%" + inscricaoFilter.getParticipante().getNome().toLowerCase() + "%"));
 		}
-		
+
 		if (!StringUtils.isEmpty(inscricaoFilter.getParticipante().getNomeCracha())) {
-			predicates.add(
-					builder.like(builder.lower(joinParticipante.get("nomeCracha")), "%" + inscricaoFilter.getParticipante().getNomeCracha().toLowerCase() + "%"));
+			predicates.add(builder.like(builder.lower(joinParticipante.get("nomeCracha")),
+					"%" + inscricaoFilter.getParticipante().getNomeCracha().toLowerCase() + "%"));
 		}
-		
+
 		if (!StringUtils.isEmpty(inscricaoFilter.getParticipante().getCpf())) {
-			predicates.add(
-					builder.like(builder.lower(joinParticipante.get("cpf")), "%" + inscricaoFilter.getParticipante().getCpf().toLowerCase() + "%"));
+			predicates.add(builder.like(builder.lower(joinParticipante.get("cpf")),
+					"%" + inscricaoFilter.getParticipante().getCpf().toLowerCase() + "%"));
+		}
+
+		if (!StringUtils.isEmpty(inscricaoFilter.getCategoriaParticipante().getTitulo())) {
+			predicates.add(builder.like(builder.lower(joinCategoriaParticipante.get("titulo")),
+					"%" + inscricaoFilter.getCategoriaParticipante().getTitulo().toLowerCase() + "%"));
 		}
 
 		return predicates.toArray(new Predicate[predicates.size()]);

@@ -11,6 +11,6 @@ import br.jus.tre_pa.seven.domain.CategoriaParticipanteEvento;
 @Repository
 public interface CategoriaParticipanteEventoRepository extends JpaRepository<CategoriaParticipanteEvento, Long> {
 
-	@Query("select c from CategoriaParticipanteEvento c inner join c.evento e where e.id = ?1")
+	@Query("select c from CategoriaParticipanteEvento c inner join c.evento e inner join c.categoriaParticipante where e.id = ?1")
 	List<CategoriaParticipanteEvento> findAllByEventoId(Long idEvento);
 }
