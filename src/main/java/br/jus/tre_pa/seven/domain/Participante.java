@@ -38,7 +38,7 @@ public class Participante {
 	@Column
 	private String tituloEleitor;
 	
-	@Column
+	@Column(unique=true)
 	private String email;
 	
 	@Column
