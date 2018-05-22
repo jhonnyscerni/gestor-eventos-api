@@ -13,4 +13,7 @@ public interface CategoriaParticipanteEventoRepository extends JpaRepository<Cat
 
 	@Query("select c from CategoriaParticipanteEvento c inner join c.evento e inner join c.categoriaParticipante where e.id = ?1")
 	List<CategoriaParticipanteEvento> findAllByEventoId(Long idEvento);
+	
+	@Query("SELECT SUM(c.vagas) from CategoriaParticipanteEvento c inner join c.evento e where e.id = ?1")
+    int getSumVagasByEvento(Long idEvento);
 }

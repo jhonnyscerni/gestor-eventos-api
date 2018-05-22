@@ -167,6 +167,12 @@ public class EventoRest {
 	public List<CategoriaParticipanteEvento> findCategoriaParticipanteEventobyEvento(@PathVariable Long idEvento) {
 		return this.categoriaParticipanteEventoRepository.findAllByEventoId(idEvento);
 	}
+	
+	@GetMapping("/{idEvento}/categoria-participante-evento/total-vagas")
+	public int totalVagas(@PathVariable Long idEvento)
+	{
+		return categoriaParticipanteEventoRepository.getSumVagasByEvento(idEvento);
+	}
 
 	/*
 	 * FACILITADOR

@@ -30,6 +30,9 @@ public class Certificado {
 	private String declaracao;
 	
 	@Column
+	private String conteudoCertificado;
+	
+	@Column
 	private String conteudoProgramatico;
 	
 	@Column
@@ -140,7 +143,15 @@ public class Certificado {
 	public void setEvento(Evento evento) {
 		this.evento = evento;
 	}
-	
+
+	public String getConteudoCertificado() {
+		return conteudoCertificado;
+	}
+
+	public void setConteudoCertificado(String conteudoCertificado) {
+		this.conteudoCertificado = conteudoCertificado;
+	}
+
 	
 
 }
