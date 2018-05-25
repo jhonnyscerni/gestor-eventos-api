@@ -269,8 +269,8 @@ public class EventoRest {
 		}
 	}
 
-	@GetMapping("/{idEvento}/certificados")
-	public List<Certificado> findCertificadosbyEvento(@PathVariable Long idEvento) {
+	@GetMapping("/{idEvento}/certificado")
+	public Certificado findCertificadosbyEvento(@PathVariable Long idEvento) {
 		return this.certificadoRepository.findAllByEventoId(idEvento);
 	}
 }
