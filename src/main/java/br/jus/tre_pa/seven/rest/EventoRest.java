@@ -4,6 +4,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -232,6 +233,13 @@ public class EventoRest {
 	public Page<Inscricao> findIncricoesByEvento(@PathVariable Long idEvento, InscricaoFilter inscricaoFilter, Pageable pageable) {
 		return this.inscricaoRepository.filtrar(idEvento, inscricaoFilter, pageable);
 	}
+	
+	@GetMapping("/{idEvento}/groupby/categoria-participante-evento")
+	public Map<Long, Long> findCounInscritosGroupByCategoriaParticipanteEvento(@PathVariable Long idEvento)
+	{
+		return inscricaoService.findCountInscritosGroupByCategoriaParticipanteEvento(idEvento);
+	}
+
 	
 	
 	/*

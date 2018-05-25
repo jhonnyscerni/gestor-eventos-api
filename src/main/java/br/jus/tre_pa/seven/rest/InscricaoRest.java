@@ -30,6 +30,7 @@ public class InscricaoRest {
 	@Autowired
 	private InscricaoRepository inscricaoRepository;
 	
+	
 	@Autowired
 	private Mailer mailer;
 	
@@ -83,7 +84,6 @@ public class InscricaoRest {
 		
 
 	}
-
 
 	
 	@DeleteMapping("/{id}")
