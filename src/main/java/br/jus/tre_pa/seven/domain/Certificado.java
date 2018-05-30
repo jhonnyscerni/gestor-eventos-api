@@ -45,6 +45,10 @@ public class Certificado {
 	
 	@ManyToOne
 	private Evento evento;
+	
+	@Lob
+	@Column
+	private String imagem;
 
 
 	public Long getId() {
@@ -152,6 +156,14 @@ public class Certificado {
 
 	public void setConteudoCertificado(String conteudoCertificado) {
 		this.conteudoCertificado = conteudoCertificado;
+	}
+
+	public String getImagem() {
+		return imagem;
+	}
+
+	public void setImagem(String imagem) {
+		this.imagem = imagem;
 	}
 
 	
