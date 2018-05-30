@@ -7,7 +7,7 @@ import br.jus.tre_pa.seven.domain.Certificado;
 
 public interface CertificadoRepository extends JpaRepository<Certificado, Long> {
 	
-	@Query("select c from Certificado c inner join c.evento e where e.id = ?1")
+	@Query("select c from Certificado c inner join c.assinatura a inner join c.evento e where e.id = ?1")
 	Certificado findAllByEventoId(Long idEvento);
 
 }

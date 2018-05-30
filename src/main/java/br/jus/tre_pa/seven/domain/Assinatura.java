@@ -30,7 +30,7 @@ public class Assinatura {
 	@Column
 	private String assinatura;
 	
-	@OneToMany(mappedBy = "assinatura")
+	@OneToMany
 	private List<Certificado> certificados;
 
 	public Long getId() {
