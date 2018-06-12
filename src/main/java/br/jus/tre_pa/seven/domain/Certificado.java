@@ -49,6 +49,8 @@ public class Certificado {
 	@Lob
 	@Column
 	private String imagem;
+	
+	private Boolean liberado = false;
 
 
 	public Long getId() {
@@ -164,6 +166,14 @@ public class Certificado {
 
 	public void setImagem(String imagem) {
 		this.imagem = imagem;
+	}
+
+	public Boolean getLiberado() {
+		return liberado;
+	}
+
+	public void setLiberado(Boolean liberado) {
+		this.liberado = liberado;
 	}
 
 	
