@@ -29,6 +29,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import br.jus.tre_pa.seven.domain.CategoriaParticipanteEvento;
 import br.jus.tre_pa.seven.domain.Certificado;
+import br.jus.tre_pa.seven.domain.Cracha;
 import br.jus.tre_pa.seven.domain.Evento;
 import br.jus.tre_pa.seven.domain.Facilitador;
 import br.jus.tre_pa.seven.domain.Frequencia;
@@ -36,6 +37,7 @@ import br.jus.tre_pa.seven.domain.Inscricao;
 import br.jus.tre_pa.seven.event.RecursoCriadoEvent;
 import br.jus.tre_pa.seven.repository.CategoriaParticipanteEventoRepository;
 import br.jus.tre_pa.seven.repository.CertificadoRepository;
+import br.jus.tre_pa.seven.repository.CrachaRepository;
 import br.jus.tre_pa.seven.repository.EventoRepository;
 import br.jus.tre_pa.seven.repository.FacilitadorRepository;
 import br.jus.tre_pa.seven.repository.FrequenciaRepository;
@@ -89,11 +91,14 @@ public class EventoRest {
 	@Autowired
 	private CertificadoRepository certificadoRepository;
 	
+	@Autowired
+	private CrachaRepository crachaRepository;
+	
 
 	@PostMapping("/anexo-imagem")
 	public String uploadAnexoEvento(@RequestParam MultipartFile anexo) throws IOException {
 		OutputStream out = new FileOutputStream(
-				"/home/jhonnyscerni/Desktop/anexo--" + anexo.getOriginalFilename());
+				"http://localhost:4200/assets/imagens" + anexo.getOriginalFilename());
 		out.write(anexo.getBytes());
 		out.close();
 		return "ok";
@@ -279,6 +284,30 @@ public class EventoRest {
 
 	@GetMapping("/{idEvento}/certificado")
 	public Certificado findCertificadosbyEvento(@PathVariable Long idEvento) {
-		return this.certificadoRepository.findAllByEventoId(idEvento);
+		
+		Certificado certificado = this.certificadoRepository.findAllByEventoId(idEvento);
+		
+		if(certificado == null) {
+			return new Certificado();
+		}else {
+			return certificado;
+		}
+	}
+	
+	/*
+	 * CRACHA
+	 */
+	
+	
+	@GetMapping("/{idEvento}/cracha")
+	public Cracha findCrachabyEvento(@PathVariable Long idEvento) {
+		
+		Cracha cracha = this.crachaRepository.findAllByEventoId(idEvento);
+		
+		if(cracha == null) {
+			return new Cracha();
+		}else {
+			return cracha;
+		}
 	}
 }
