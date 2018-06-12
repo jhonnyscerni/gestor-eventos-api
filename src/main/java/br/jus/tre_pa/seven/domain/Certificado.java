@@ -50,7 +50,7 @@ public class Certificado {
 	@Column
 	private String imagem;
 	
-	private Boolean liberado = false;
+	private Boolean liberado;
 
 
 	public Long getId() {
