@@ -179,6 +179,12 @@ public class EventoRest {
 	{
 		return categoriaParticipanteEventoRepository.getSumVagasByEvento(idEvento);
 	}
+	
+	@GetMapping("/{idEvento}/categoria-participante-evento/categoria-participante/{idCategoriaParticipante}")
+	public int totalVagasPorCategoriaParticipanteEvento(@PathVariable Long idEvento , @PathVariable Long idCategoriaParticipante)
+	{
+		return categoriaParticipanteEventoRepository.getSumVagasByEventoByCategoriaParticipanteEvento(idEvento, idCategoriaParticipante);
+	}
 
 	/*
 	 * FACILITADOR

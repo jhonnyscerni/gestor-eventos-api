@@ -22,6 +22,9 @@ public interface InscricaoRepository extends JpaRepository<Inscricao, Long>, Ins
 	
 	@Query("select i.categoriaParticipanteEvento.id as categoriaParticipanteEventoId, count(0) as count from Inscricao i where i.evento.id = ?1 group by i.categoriaParticipanteEvento")
 	public List<CountInscritosGroupByCategoriaParticipanteEvento> findCountInscritosByCategoriaParticipanteEvento(Long id);
+	
+	@Query("select count(0) as count from Inscricao i where i.evento.id = ?1 and i.categoriaParticipanteEvento.categoriaParticipante.id= ?2  ")
+	int findCountInscritosByCategoriaParticipanteEventoId(Long id , Long idCategoriaParticipanteEvento);
 
 	Inscricao findOneByCodigoQrCode(String uuid);
 }
