@@ -3,6 +3,7 @@ package br.jus.tre_pa.seven.rest;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -11,11 +12,14 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,6 +39,8 @@ import br.jus.tre_pa.seven.domain.Facilitador;
 import br.jus.tre_pa.seven.domain.Frequencia;
 import br.jus.tre_pa.seven.domain.Inscricao;
 import br.jus.tre_pa.seven.event.RecursoCriadoEvent;
+import br.jus.tre_pa.seven.exception.VagaCategoriaParticipanteEventoException;
+import br.jus.tre_pa.seven.exceptionhandler.SevenExceptionHandler.Erro;
 import br.jus.tre_pa.seven.repository.CategoriaParticipanteEventoRepository;
 import br.jus.tre_pa.seven.repository.CertificadoRepository;
 import br.jus.tre_pa.seven.repository.CrachaRepository;
@@ -93,6 +99,9 @@ public class EventoRest {
 	
 	@Autowired
 	private CrachaRepository crachaRepository;
+	
+	@Autowired
+	private MessageSource messageSource;
 	
 
 	@PostMapping("/anexo-imagem")
@@ -249,6 +258,16 @@ public class EventoRest {
 	public Map<Long, Long> findCounInscritosGroupByCategoriaParticipanteEvento(@PathVariable Long idEvento)
 	{
 		return inscricaoService.findCountInscritosGroupByCategoriaParticipanteEvento(idEvento);
+	}
+	
+	@ExceptionHandler(VagaCategoriaParticipanteEventoException.class)
+	public ResponseEntity<Object> handlerValidaVagaCategoriaParticipanteEvento(VagaCategoriaParticipanteEventoException ex) {
+		String mensagemUsuario = messageSource.getMessage("vagas.esgotada", null, LocaleContextHolder.getLocale());
+		String mensagemDesenvolvedor = ex.toString();
+
+		List<Erro> erros = Arrays.asList(new Erro(mensagemUsuario, mensagemDesenvolvedor));
+		
+		return ResponseEntity.badRequest().body(erros);
 	}
 
 	

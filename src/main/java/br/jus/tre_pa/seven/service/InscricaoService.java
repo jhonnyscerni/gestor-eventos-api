@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.jus.tre_pa.seven.domain.Inscricao;
+import br.jus.tre_pa.seven.exception.VagaCategoriaParticipanteEventoException;
 import br.jus.tre_pa.seven.projection.CountInscritosGroupByCategoriaParticipanteEvento;
 import br.jus.tre_pa.seven.repository.CategoriaParticipanteEventoRepository;
 import br.jus.tre_pa.seven.repository.InscricaoRepository;
@@ -47,6 +48,7 @@ public class InscricaoService {
 			inscricaoSalva = inscricaoRespository.save(inscricao);
 		} else {
 			System.out.println("ERROR -> Numero de Vagas Esgotada pra essa Categoria !!!");
+			throw new VagaCategoriaParticipanteEventoException();
 		}
 		
 		return inscricaoSalva;
