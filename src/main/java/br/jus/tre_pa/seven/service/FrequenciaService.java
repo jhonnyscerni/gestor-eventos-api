@@ -1,5 +1,6 @@
 package br.jus.tre_pa.seven.service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -25,22 +26,31 @@ public class FrequenciaService {
 
 	public Frequencia salvar(String uuid) {
 		Inscricao inscricao = inscricaoRespository.findOneByCodigoQrCode(uuid);
-		
-		List<Frequencia> frequenciaExistente = frequenciaRepository
-				.findAllFrequenciaByInscricaoByParticipanteByEnventoParticipante(inscricao.getEvento().getId(),
-						inscricao.getId());
+
+		Frequencia frequenciaHora = new Frequencia();
 
 		LocalDateTime dataHoraFrequencia = LocalDateTime.now();
+		LocalDate dataAtualFrequencia = LocalDate.now();
 
-		for (Frequencia frequenciaFor : frequenciaExistente) {
+		if (dataHoraFrequencia.getHour() >= 0 && dataHoraFrequencia.getHour() <= 11) {
+			frequenciaHora.setFrequenciaTurno(FrequenciaTurno.MANHA);
+		}
+		if (dataHoraFrequencia.getHour() >= 12 && dataHoraFrequencia.getHour() <= 17) {
+			frequenciaHora.setFrequenciaTurno(FrequenciaTurno.TARDE);
+		}
+		if (dataHoraFrequencia.getHour() >= 18) {
+			frequenciaHora.setFrequenciaTurno(FrequenciaTurno.NOITE);
+		}
+
+		List<Frequencia> frequenciaExistente = frequenciaRepository
+				.findAllFrequenciaByInscricaoByParticipanteByEnventoParticipante(inscricao.getEvento().getId(),
+						inscricao.getId(), frequenciaHora.getFrequenciaTurno(), dataAtualFrequencia);
+
+		if (!frequenciaExistente.isEmpty()) {
+			for (Frequencia frequenciaFor : frequenciaExistente) {
 
 				if (dataHoraFrequencia.getHour() >= 0 && dataHoraFrequencia.getHour() <= 11) {
-					if (frequenciaFor.getDataFrequencia().getDayOfYear() == dataHoraFrequencia.getDayOfYear()) {
-					
-						if (frequenciaFor.getFrequenciaTurno() == FrequenciaTurno.TARDE || frequenciaFor.getFrequenciaTurno() == FrequenciaTurno.NOITE) {
-							
-						}else {
-						
+
 					if (frequenciaFor.getFrequenciaTurno() == FrequenciaTurno.MANHA) {
 						System.out.println("JA EFETUOU A PRESENCA PELA PARTE DA MANHA");
 					} else {
@@ -51,39 +61,24 @@ public class FrequenciaService {
 						frequenciaRepository.save(frequencia);
 
 					}
-					}
-					}
 				}
 
 				if (dataHoraFrequencia.getHour() >= 12 && dataHoraFrequencia.getHour() <= 17) {
-					if (frequenciaFor.getDataFrequencia().getDayOfYear() == dataHoraFrequencia.getDayOfYear()) {
-						
-						if (frequenciaFor.getFrequenciaTurno() == FrequenciaTurno.MANHA || frequenciaFor.getFrequenciaTurno() == FrequenciaTurno.NOITE) {
-						}else {
-						
-						if (frequenciaFor.getFrequenciaTurno() == FrequenciaTurno.TARDE) {
-								System.out.println("JA EFETUOU A PRESENCA PELA PARTE DA TARDE");
-							}else {
-								frequencia.setDataFrequencia(dataHoraFrequencia);
-								frequencia.setFrequenciaTurno(FrequenciaTurno.TARDE);
-								frequencia.setInscricao(inscricao);
-								frequenciaRepository.save(frequencia);
-							}
-						}
+
+					if (frequenciaFor.getFrequenciaTurno() == FrequenciaTurno.TARDE) {
+						System.out.println("JA EFETUOU A PRESENCA PELA PARTE DA TARDE");
+					} else {
+						frequencia.setDataFrequencia(dataHoraFrequencia);
+						frequencia.setFrequenciaTurno(FrequenciaTurno.TARDE);
+						frequencia.setInscricao(inscricao);
+						frequenciaRepository.save(frequencia);
 					}
-						
-	
-					
+
 				}
 
 				if (dataHoraFrequencia.getHour() >= 18) {
-					if (frequenciaFor.getDataFrequencia().getDayOfYear() == dataHoraFrequencia.getDayOfYear()) {
-						
-					if (frequenciaFor.getFrequenciaTurno() == FrequenciaTurno.MANHA || frequenciaFor.getFrequenciaTurno() == FrequenciaTurno.NOITE) {
-							
-						}else {
-					if (frequenciaFor.getFrequenciaTurno() == FrequenciaTurno.NOITE) {
 
+					if (frequenciaFor.getFrequenciaTurno() == FrequenciaTurno.NOITE) {
 						System.out.println("JA EFETUOU A PRESENCA PELA PARTE DA NOITE");
 					} else {
 						frequencia.setDataFrequencia(dataHoraFrequencia);
@@ -91,11 +86,35 @@ public class FrequenciaService {
 						frequencia.setInscricao(inscricao);
 						frequenciaRepository.save(frequencia);
 					}
-					}
-					}
 				}
 
+			}
+
+		} else {
+
+			if (dataHoraFrequencia.getHour() >= 0 && dataHoraFrequencia.getHour() <= 11) {
+				frequencia.setDataFrequencia(dataHoraFrequencia);
+				frequencia.setFrequenciaTurno(FrequenciaTurno.MANHA);
+				frequencia.setInscricao(inscricao);
+				frequenciaRepository.save(frequencia);
+			}
+
+			if (dataHoraFrequencia.getHour() >= 12 && dataHoraFrequencia.getHour() <= 17) {
+				frequencia.setDataFrequencia(dataHoraFrequencia);
+				frequencia.setFrequenciaTurno(FrequenciaTurno.TARDE);
+				frequencia.setInscricao(inscricao);
+				frequenciaRepository.save(frequencia);
+			}
+
+			if (dataHoraFrequencia.getHour() >= 18) {
+				frequencia.setDataFrequencia(dataHoraFrequencia);
+				frequencia.setFrequenciaTurno(FrequenciaTurno.NOITE);
+				frequencia.setInscricao(inscricao);
+				frequenciaRepository.save(frequencia);
+			}
+
 		}
+
 		return null;
 
 	}
