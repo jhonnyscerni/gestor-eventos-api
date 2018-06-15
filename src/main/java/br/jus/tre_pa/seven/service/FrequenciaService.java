@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import br.jus.tre_pa.seven.domain.Frequencia;
 import br.jus.tre_pa.seven.domain.Inscricao;
 import br.jus.tre_pa.seven.domain.enums.FrequenciaTurno;
+import br.jus.tre_pa.seven.exception.FrequenciaException;
 import br.jus.tre_pa.seven.repository.FrequenciaRepository;
 import br.jus.tre_pa.seven.repository.InscricaoRepository;
 
@@ -53,6 +54,7 @@ public class FrequenciaService {
 
 					if (frequenciaFor.getFrequenciaTurno() == FrequenciaTurno.MANHA) {
 						System.out.println("JA EFETUOU A PRESENCA PELA PARTE DA MANHA");
+						throw new FrequenciaException();
 					} else {
 
 						frequencia.setDataFrequencia(dataHoraFrequencia);
@@ -67,6 +69,7 @@ public class FrequenciaService {
 
 					if (frequenciaFor.getFrequenciaTurno() == FrequenciaTurno.TARDE) {
 						System.out.println("JA EFETUOU A PRESENCA PELA PARTE DA TARDE");
+						throw new FrequenciaException();
 					} else {
 						frequencia.setDataFrequencia(dataHoraFrequencia);
 						frequencia.setFrequenciaTurno(FrequenciaTurno.TARDE);
@@ -80,6 +83,7 @@ public class FrequenciaService {
 
 					if (frequenciaFor.getFrequenciaTurno() == FrequenciaTurno.NOITE) {
 						System.out.println("JA EFETUOU A PRESENCA PELA PARTE DA NOITE");
+						throw new FrequenciaException();
 					} else {
 						frequencia.setDataFrequencia(dataHoraFrequencia);
 						frequencia.setFrequenciaTurno(FrequenciaTurno.NOITE);

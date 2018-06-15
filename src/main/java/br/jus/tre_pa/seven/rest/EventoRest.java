@@ -3,7 +3,6 @@ package br.jus.tre_pa.seven.rest;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -40,7 +39,6 @@ import br.jus.tre_pa.seven.domain.Frequencia;
 import br.jus.tre_pa.seven.domain.Inscricao;
 import br.jus.tre_pa.seven.event.RecursoCriadoEvent;
 import br.jus.tre_pa.seven.exception.VagaCategoriaParticipanteEventoException;
-import br.jus.tre_pa.seven.exceptionhandler.SevenExceptionHandler.Erro;
 import br.jus.tre_pa.seven.repository.CategoriaParticipanteEventoRepository;
 import br.jus.tre_pa.seven.repository.CertificadoRepository;
 import br.jus.tre_pa.seven.repository.CrachaRepository;
@@ -263,11 +261,7 @@ public class EventoRest {
 	@ExceptionHandler(VagaCategoriaParticipanteEventoException.class)
 	public ResponseEntity<Object> handlerValidaVagaCategoriaParticipanteEvento(VagaCategoriaParticipanteEventoException ex) {
 		String mensagemUsuario = messageSource.getMessage("vagas.esgotada", null, LocaleContextHolder.getLocale());
-		String mensagemDesenvolvedor = ex.toString();
-
-		List<Erro> erros = Arrays.asList(new Erro(mensagemUsuario, mensagemDesenvolvedor));
-		
-		return ResponseEntity.badRequest().body(erros);
+		return ResponseEntity.badRequest().body(mensagemUsuario);
 	}
 
 	
