@@ -20,4 +20,6 @@ public interface FrequenciaRepository extends JpaRepository<Frequencia, Long> {
 			+ "and TO_DATE(f.dataFrequencia, 'yyyy-MM-dd') = ?4  ")
 	List<Frequencia> findAllFrequenciaByInscricaoByParticipanteByEnventoParticipante(Long idEvento, Long idInscricao, FrequenciaTurno turno, LocalDate data);
 
+	@Query("select f from Frequencia f inner join f.inscricao i inner join i.participante p inner join i.evento e where e.id = ?1 and i.id = ?2")
+	List<Frequencia> findAllFrequenciaByInscricaoByParticipanteByEventoUser(Long idEvento, Long idInscricao);
 }

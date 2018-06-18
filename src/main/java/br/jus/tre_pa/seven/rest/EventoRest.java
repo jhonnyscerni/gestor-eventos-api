@@ -276,6 +276,11 @@ public class EventoRest {
 		return this.frequenciaRepository.findAllFrequenciaByInscricaoByParticipanteByEnvento(idEvento);
 	}
 	
+	@GetMapping("/{idEvento}/frequencia/{idInscricao}")
+	public List<Frequencia> findAllFrequenciaByInscricaoByParticipanteByEventoUser(@PathVariable Long idEvento, @PathVariable Long idInscricao) {
+		return this.frequenciaRepository.findAllFrequenciaByInscricaoByParticipanteByEventoUser(idEvento, idInscricao);
+	}
+	
 	
 	/*
 	 * CERTIFICADO
