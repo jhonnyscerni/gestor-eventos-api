@@ -66,14 +66,13 @@ public class EventoRest {
 
 	@Autowired
 	private FacilitadorService facilitadorService;
-	
+
 	@Autowired
 	private InscricaoService inscricaoService;
 
-
 	@Autowired
 	private CategoriaParticipanteEventoService categoriaParticipanteEventoService;
-	
+
 	@Autowired
 	private CertificadoService certificadoService;
 
@@ -85,32 +84,29 @@ public class EventoRest {
 
 	@Autowired
 	private FacilitadorRepository facilitadorRepository;
-	
+
 	@Autowired
 	private InscricaoRepository inscricaoRepository;
-	
+
 	@Autowired
 	private FrequenciaRepository frequenciaRepository;
-	
+
 	@Autowired
 	private CertificadoRepository certificadoRepository;
-	
+
 	@Autowired
 	private CrachaRepository crachaRepository;
-	
+
 	@Autowired
 	private MessageSource messageSource;
-	
 
 	@PostMapping("/anexo-imagem")
 	public String uploadAnexoEvento(@RequestParam MultipartFile anexo) throws IOException {
-		OutputStream out = new FileOutputStream(
-				"http://localhost:4200/assets/imagens" + anexo.getOriginalFilename());
+		OutputStream out = new FileOutputStream("http://localhost:4200/assets/imagens" + anexo.getOriginalFilename());
 		out.write(anexo.getBytes());
 		out.close();
 		return "ok";
 	}
-	
 
 	@GetMapping
 	public Page<Evento> pesquisar(EventoFilter eventoFilter, Pageable pageable) {
@@ -180,17 +176,17 @@ public class EventoRest {
 	public List<CategoriaParticipanteEvento> findCategoriaParticipanteEventobyEvento(@PathVariable Long idEvento) {
 		return this.categoriaParticipanteEventoRepository.findAllByEventoId(idEvento);
 	}
-	
+
 	@GetMapping("/{idEvento}/categoria-participante-evento/total-vagas")
-	public int totalVagas(@PathVariable Long idEvento)
-	{
+	public int totalVagas(@PathVariable Long idEvento) {
 		return categoriaParticipanteEventoRepository.getSumVagasByEvento(idEvento);
 	}
-	
+
 	@GetMapping("/{idEvento}/categoria-participante-evento/categoria-participante/{idCategoriaParticipante}")
-	public int totalVagasPorCategoriaParticipanteEvento(@PathVariable Long idEvento , @PathVariable Long idCategoriaParticipante)
-	{
-		return categoriaParticipanteEventoRepository.getSumVagasByEventoByCategoriaParticipanteEvento(idEvento, idCategoriaParticipante);
+	public int totalVagasPorCategoriaParticipanteEvento(@PathVariable Long idEvento,
+			@PathVariable Long idCategoriaParticipante) {
+		return categoriaParticipanteEventoRepository.getSumVagasByEventoByCategoriaParticipanteEvento(idEvento,
+				idCategoriaParticipante);
 	}
 
 	/*
@@ -221,12 +217,12 @@ public class EventoRest {
 	public List<Facilitador> findFacilitadoresbyEvento(@PathVariable Long idEvento) {
 		return this.facilitadorRepository.findAllByEventoId(idEvento);
 	}
-	
+
 	/*
 	 * INSCRICAO
 	 * 
 	 */
-	
+
 	@PostMapping("/{idEvento}/inscricao")
 	public ResponseEntity<Inscricao> criar(@PathVariable Long idEvento, @Valid @RequestBody Inscricao inscricao,
 			HttpServletResponse response) {
@@ -234,7 +230,7 @@ public class EventoRest {
 		publisher.publishEvent(new RecursoCriadoEvent(this, response, inscricaoSalvo.getId()));
 		return ResponseEntity.status(HttpStatus.CREATED).body(inscricaoSalvo);
 	}
-	
+
 	@PutMapping("/{idEvento}/inscricao/{idInscricao}")
 	public ResponseEntity<Inscricao> atualizar(@PathVariable Long idEvento, @PathVariable Long idInscricao,
 			@Valid @RequestBody Inscricao inscricao, HttpServletResponse response) {
@@ -246,42 +242,42 @@ public class EventoRest {
 			return ResponseEntity.notFound().build();
 		}
 	}
-	
+
 	@GetMapping("/{idEvento}/inscricoes")
-	public Page<Inscricao> findIncricoesByEvento(@PathVariable Long idEvento, InscricaoFilter inscricaoFilter, Pageable pageable) {
+	public Page<Inscricao> findIncricoesByEvento(@PathVariable Long idEvento, InscricaoFilter inscricaoFilter,
+			Pageable pageable) {
 		return this.inscricaoRepository.filtrar(idEvento, inscricaoFilter, pageable);
 	}
-	
+
 	@GetMapping("/{idEvento}/groupby/categoria-participante-evento")
-	public Map<Long, Long> findCounInscritosGroupByCategoriaParticipanteEvento(@PathVariable Long idEvento)
-	{
+	public Map<Long, Long> findCounInscritosGroupByCategoriaParticipanteEvento(@PathVariable Long idEvento) {
 		return inscricaoService.findCountInscritosGroupByCategoriaParticipanteEvento(idEvento);
 	}
-	
+
 	@ExceptionHandler(VagaCategoriaParticipanteEventoException.class)
-	public ResponseEntity<Object> handlerValidaVagaCategoriaParticipanteEvento(VagaCategoriaParticipanteEventoException ex) {
+	public ResponseEntity<Object> handlerValidaVagaCategoriaParticipanteEvento(
+			VagaCategoriaParticipanteEventoException ex) {
 		String mensagemUsuario = messageSource.getMessage("vagas.esgotada", null, LocaleContextHolder.getLocale());
 		return ResponseEntity.badRequest().body(mensagemUsuario);
 	}
 
-	
-	
 	/*
 	 * FREQUENCIA
 	 * 
 	 */
-	
+
 	@GetMapping("/{idEvento}/frequencia")
-	public List<Frequencia> findAllFrequenciaByInscricaoByParticipanteByEnvento(@PathVariable Long idEvento) {
-		return this.frequenciaRepository.findAllFrequenciaByInscricaoByParticipanteByEnvento(idEvento);
+	public Page<Frequencia> findAllFrequenciaByInscricaoByParticipanteByEnvento(@PathVariable Long idEvento,
+			Pageable pageable) {
+		return this.frequenciaRepository.findAllFrequenciaByInscricaoByParticipanteByEnvento(idEvento, pageable);
 	}
-	
+
 	@GetMapping("/{idEvento}/frequencia/{idInscricao}")
-	public List<Frequencia> findAllFrequenciaByInscricaoByParticipanteByEventoUser(@PathVariable Long idEvento, @PathVariable Long idInscricao) {
+	public List<Frequencia> findAllFrequenciaByInscricaoByParticipanteByEventoUser(@PathVariable Long idEvento,
+			@PathVariable Long idInscricao) {
 		return this.frequenciaRepository.findAllFrequenciaByInscricaoByParticipanteByEventoUser(idEvento, idInscricao);
 	}
-	
-	
+
 	/*
 	 * CERTIFICADO
 	 */
@@ -308,29 +304,28 @@ public class EventoRest {
 
 	@GetMapping("/{idEvento}/certificado")
 	public Certificado findCertificadosbyEvento(@PathVariable Long idEvento) {
-		
+
 		Certificado certificado = this.certificadoRepository.findAllByEventoId(idEvento);
-		
-		if(certificado == null) {
+
+		if (certificado == null) {
 			return new Certificado();
-		}else {
+		} else {
 			return certificado;
 		}
 	}
-	
+
 	/*
 	 * CRACHA
 	 */
-	
-	
+
 	@GetMapping("/{idEvento}/cracha")
 	public Cracha findCrachabyEvento(@PathVariable Long idEvento) {
-		
+
 		Cracha cracha = this.crachaRepository.findAllByEventoId(idEvento);
-		
-		if(cracha == null) {
+
+		if (cracha == null) {
 			return new Cracha();
-		}else {
+		} else {
 			return cracha;
 		}
 	}
