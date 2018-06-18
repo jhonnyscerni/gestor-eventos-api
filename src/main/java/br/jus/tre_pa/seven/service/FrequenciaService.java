@@ -119,7 +119,7 @@ public class FrequenciaService {
 
 		}
 
-		return null;
+		return frequencia;
 
 	}
 }
