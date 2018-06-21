@@ -129,6 +129,17 @@
 			<artifactId>javase</artifactId>
 			<version>2.0</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.keycloak</groupId>
+			<artifactId>keycloak-spring-boot-adapter</artifactId>
+			<version>2.5.5.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>org.keycloak</groupId>
+			<artifactId>keycloak-tomcat8-adapter</artifactId>
+			<version>2.5.5.Final</version>
+		</dependency>
 	</dependencies>
 
 	<build>
