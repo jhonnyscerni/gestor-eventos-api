@@ -20,6 +20,9 @@ public interface InscricaoRepository extends JpaRepository<Inscricao, Long>, Ins
 	@Query("select p from Inscricao p inner join p.participante e where e.id = ?1")
 	List<Inscricao> findAllInscricaoByParticipante(Long idParticipante);
 	
+	@Query("select count(0) from Inscricao i inner join i.participante p inner join i.evento e where p.id = ?1 and e.id=?2")
+	Integer findAllInscricaoByParticipanteEvento(Long idParticipante, Long idEvento);
+	
 	@Query("select i.categoriaParticipanteEvento.id as categoriaParticipanteEventoId, count(0) as count from Inscricao i where i.evento.id = ?1 group by i.categoriaParticipanteEvento")
 	public List<CountInscritosGroupByCategoriaParticipanteEvento> findCountInscritosByCategoriaParticipanteEvento(Long id);
 	

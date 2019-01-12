@@ -50,6 +50,11 @@ public class InscricaoRest {
 		return inscricaoRepository.findAllInscricaoByParticipante(idParticipante);
 	}
 	
+	@GetMapping("verifica-inscricao")
+	public Integer verificarInscrito(@RequestParam Long idParticipante, Long idEvento) {
+		return inscricaoRepository.findAllInscricaoByParticipanteEvento(idParticipante, idEvento);
+	}
+	
 	@GetMapping("gerar-cracha/{idInscricao}")
 	public ResponseEntity<Inscricao> buscarParticipantePelaInscricao(@PathVariable Long idInscricao) {
 		Inscricao inscricao = inscricaoRepository.findOneParticipanteByInscricao(idInscricao);
