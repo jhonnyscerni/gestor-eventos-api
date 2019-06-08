@@ -33,3 +33,11 @@ $ mvn spring-boot:run
 | False             | findByActiveFalse()                                        | … where x.active = false                                          |
 | IgnoreCase        | findByFirstnameIgnoreCase                                  | … where UPPER(x.firstame) = UPPER(?1)                             |
 
+## Inicializando container com as configurações do Keycloak do projeto
+
+#####${CAMINHO_RELATIVO_PROJETO}=trocar esta variável pelo caminho completo de pastas onde o projeto se encontra no computador
+
+Alterar na instrução abaixo o **${CAMINHO_RELATIVO_PROJETO}** e executar no terminal o comando abaixo.
+
+```
+docker run -p 8081:8080 -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin -e KEYCLOAK_IMPORT=/tmp/realm-export.json -v ${CAMINHO_RELATIVO_PROJETO}/realm-export.json:/tmp/realm-export.json jboss/keycloak
