@@ -24,7 +24,7 @@
 		<java.version>1.8</java.version>
 		<build-helper-maven-plugin.version>3.0.0</build-helper-maven-plugin.version>
 		<flyway.version>4.0.3</flyway.version>
-		<swagger.version>2.7.0</swagger.version>
+		<swagger.version>2.10.0</swagger.version>
 
 		<thymeleaf.version>3.0.9.RELEASE</thymeleaf.version>
 		<thymeleaf-layout-dialect.version>2.2.2</thymeleaf-layout-dialect.version>
